@@ -51,7 +51,7 @@ Este proyecto ha sido desarrollado siguiendo estrictamente los lineamientos de l
 
 | Pantalla de Inicio | Operación CRUD | Uso del Sensor |
 | :---: | :---: | :---: |
-| ![Inicio](url_imagen) | ![CRUD](url_imagen) | ![Sensor](url_imagen) |
+| ![Inicio](https://github.com/Angelica0918/IntegradoraMovil/blob/master/Captura1.jpg) | ![CRUD](url_imagen) | ![Sensor](url_imagen) |
 
 ---
 
