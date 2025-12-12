@@ -15,9 +15,9 @@
             private val context: Context,
             private val client: FusedLocationProviderClient
         ) {
-            @SuppressLint("MissingPermission") // Asumimos que los permisos se piden en la UI
+            @SuppressLint("MissingPermission") // Los permisos se piden en la UI
             fun getLocationUpdates(interval: Long): Flow<android.location.Location> {
-        // callbackFlow es la magia para convertir callbacks en Flows
+                // callbackFlow es para convertir callbacks en Flows
                 return callbackFlow {
                     val locationRequest = LocationRequest.Builder(
                         Priority.PRIORITY_HIGH_ACCURACY, interval
@@ -35,7 +35,7 @@
                         locationCallback,
                         Looper.getMainLooper()
                     )
-        // Esto se llama cuando el Flow se cancela (ej: el ViewModel se destruye)
+        // Esto se llama cuando el Flow se cancela (ej. el ViewModel se destruye)
                     awaitClose {
                         client.removeLocationUpdates(locationCallback)
                     }

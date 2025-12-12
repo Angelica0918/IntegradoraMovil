@@ -40,7 +40,7 @@ class TrackingViewModel(
 
     private var locationJob: Job? = null
 
-    // --- INIT: VERIFICAR SI VENIMOS DE "CONTINUAR RUTA" ---
+    // INIT: VERIFICAR SI VENIMOS DE "CONTINUAR RUTA"
     init {
         val navTripId = savedStateHandle.get<Long>("tripId") ?: -1L
         if (navTripId != -1L) {
@@ -54,7 +54,7 @@ class TrackingViewModel(
         else startRecording()
     }
 
-    // --- NUEVO VIAJE (Desde cero) ---
+    // NUEVO VIAJE (Desde cero)
     private fun startRecording() {
         if (locationJob != null && locationJob?.isActive == true) return
         locationJob?.cancel()
@@ -67,7 +67,7 @@ class TrackingViewModel(
         }
     }
 
-    // --- CONTINUAR VIAJE (Desde Galería) ---
+    // CONTINUAR VIAJE (Desde Galería)
     private fun resumeRecording(existingTripId: Long) {
         if (locationJob != null && locationJob?.isActive == true) return
         locationJob?.cancel()

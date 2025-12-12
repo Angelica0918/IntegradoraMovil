@@ -13,13 +13,12 @@ import kotlinx.coroutines.flow.stateIn
 class MapViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = TripRepository(application)
 
-    // --- CAMBIO IMPORTANTE ---
     // En lugar de una lista plana, transformamos los datos a un Mapa agrupado por ID de viaje.
     // Tipo: Map<Long, List<LocationPoint>>
     val tripsData: StateFlow<Map<Long, List<LocationPoint>>> =
         repository.getAllPoints()
             .map { points ->
-                // Esta función mágica agrupa los puntos según su tripId
+                // Esta función agrupa los puntos según su tripId
                 points.groupBy { it.tripId }
             }
             .stateIn(

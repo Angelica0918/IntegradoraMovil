@@ -15,10 +15,10 @@ import java.io.ByteArrayOutputStream
 
 class TripRepository(private val context: Context) {
 
-    // CAMBIO 1: Usamos la API (Retrofit) en lugar del DAO (Room)
+    // Usamos la API (Retrofit)
     private val api = RetrofitClient.apiService
 
-    // --- 1. OBTENER VIAJES (Flow desde la Nube) ---
+    // OBTENER VIAJES (Flow desde la Nube)
     fun getAllCompletedTrips(): Flow<List<Trip>> = flow {
         try {
             val trips = api.getAllTrips()
@@ -31,7 +31,7 @@ class TripRepository(private val context: Context) {
         }
     }
 
-    // --- 2. OBTENER PUNTOS (Para el mapa) ---
+    // OBTENER PUNTOS (Para el mapa)
     fun getAllPoints(): Flow<List<LocationPoint>> = flow {
         try {
             // Nota: Pedir TODOS los puntos puede ser lento, pero mantiene tu lógica actual
@@ -43,7 +43,7 @@ class TripRepository(private val context: Context) {
         }
     }
 
-    // --- 3. INICIAR VIAJE ---
+    // INICIAR VIAJE
     suspend fun startNewTrip(): Long {
         return try {
             val trip = Trip(startTime = System.currentTimeMillis())
@@ -56,7 +56,7 @@ class TripRepository(private val context: Context) {
         }
     }
 
-    // --- 4. GUARDAR PUNTO GPS ---
+    // GUARDAR PUNTO GPS
     suspend fun saveLocationPoint(point: LocationPoint) {
         try {
             api.sendLocationPoint(point)
@@ -65,7 +65,7 @@ class TripRepository(private val context: Context) {
         }
     }
 
-    // --- 5. ELIMINAR VIAJE ---
+    // ELIMINAR VIAJE
     suspend fun deleteTrip(tripId: Long) {
         try {
             api.deleteTrip(tripId)
@@ -74,24 +74,24 @@ class TripRepository(private val context: Context) {
         }
     }
 
-    // --- 6. REANUDAR VIAJE ---
+    // REANUDAR VIAJE
     suspend fun resumeTrip(tripId: Long) {
         // En MockAPI, simplemente seguimos enviando puntos con este ID.
         // No es estrictamente necesario actualizar el campo endTime a null en la nube
         // para que funcione, así que lo dejamos vacío para ahorrar datos.
     }
 
-    // --- 7. FINALIZAR VIAJE (Cálculo de distancia y Foto Base64) ---
+    // FINALIZAR VIAJE (Cálculo de distancia y Foto Base64)
     suspend fun stopTripAndSaveDetails(tripId: Long, photoUriStr: String, title: String) {
         try {
-            // A. Pedimos los puntos a la nube para calcular la distancia
+            // 1. Pedimos los puntos a la nube para calcular la distancia
             val points = api.getPointsByTrip(tripId)
             val totalDistance = calculateDistance(points)
 
-            // B. Convertimos la foto (Uri) a Texto (Base64) para MockAPI
+            // 2. Convertimos la foto (Uri) a Texto (Base64) para MockAPI
             val base64Image = encodeImageToBase64(Uri.parse(photoUriStr))
 
-            // C. Creamos el objeto actualizado
+            // 3. Creamos el objeto actualizado
             val updatedTrip = Trip(
                 id = tripId,
                 startTime = points.firstOrNull()?.timestamp ?: System.currentTimeMillis(),
@@ -101,7 +101,7 @@ class TripRepository(private val context: Context) {
                 distance = totalDistance
             )
 
-            // D. Enviamos la actualización al servidor
+            // 4. Enviamos la actualización al servidor
             api.updateTrip(tripId, updatedTrip)
 
         } catch (e: Exception) {
@@ -109,9 +109,9 @@ class TripRepository(private val context: Context) {
         }
     }
 
-    // --- UTILERÍAS ---
+    // UTILERÍAS
 
-    // Misma lógica matemática, pero trabajando con datos de la nube
+    // Misma lógica, pero trabajando con datos de la nube
     private fun calculateDistance(points: List<LocationPoint>): Double {
         if (points.size < 2) return 0.0
         var totalDistance = 0.0
@@ -125,7 +125,7 @@ class TripRepository(private val context: Context) {
         return totalDistance
     }
 
-    // FUNCION NUEVA: Convierte la imagen a String (Base64)
+    // FUN: Convierte la imagen a String (Base64)
     private fun encodeImageToBase64(imageUri: Uri): String? {
         return try {
             val inputStream = context.contentResolver.openInputStream(imageUri)
@@ -139,7 +139,7 @@ class TripRepository(private val context: Context) {
             scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
             val byteArray = outputStream.toByteArray()
 
-            // Retornamos el string listo para HTML/Web
+            // Retornamos el string listo para HTML
             "data:image/jpeg;base64," + Base64.encodeToString(byteArray, Base64.NO_WRAP)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -147,9 +147,9 @@ class TripRepository(private val context: Context) {
         }
     }
 
-    // Función Legacy (ya no se usa mucho, pero la mantenemos para que no rompa tu código anterior)
+    // Función (ya no se usa mucho, pero la mantenemos para evitar cualquier posible error)
     suspend fun stopTripAndAddPhoto(tripId: Long, photoUri: String) {
-        // Redirigimos a la función nueva con título vacío si se llega a llamar
+        // Redirigimos a la función título vacío si se llega a llamar
         stopTripAndSaveDetails(tripId, photoUri, "Sin Título")
     }
 }
