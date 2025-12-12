@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 @Entity(
     tableName = "location_points",
-    primaryKeys = ["tripId", "timestamp"], // Clave única
+    primaryKeys = ["tripId", "timestamp"], //Clave única
     foreignKeys = [
         ForeignKey(
             entity = Trip::class,
