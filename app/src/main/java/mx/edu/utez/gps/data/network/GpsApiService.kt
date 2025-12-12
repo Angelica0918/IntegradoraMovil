@@ -24,7 +24,7 @@ interface GpsApiService {
     @POST("points")
     suspend fun sendLocationPoint(@Body point: LocationPoint)
 
-    // Obtener puntos de un viaje (Filtro de MockAPI)
+    // Obtener puntos de un viaje (MockAPI)
     @GET("points")
     suspend fun getPointsByTrip(@Query("tripId") tripId: Long): List<LocationPoint>
 
@@ -32,7 +32,7 @@ interface GpsApiService {
     @GET("points")
     suspend fun getAllPoints(): List<LocationPoint>
 
-    // Actualizar viaje (finalizar)
+    // Actualizar viaje
     @PUT("trips/{id}")
     suspend fun updateTrip(@Path("id") id: Long, @Body trip: Trip)
 

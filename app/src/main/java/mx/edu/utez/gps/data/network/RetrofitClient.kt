@@ -5,8 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    // ¡¡¡IMPORTANTE: PEGA AQUÍ TU URL DE MOCKAPI!!!
-    // Debe terminar en diagonal '/'
+    // URL base de la API, que es mockapi o tambien podemos colocar la IPv4 de una computadora
     private const val BASE_URL = "https://693bc40db762a4f15c3e32be.mockapi.io/"
 
     val apiService: GpsApiService by lazy {

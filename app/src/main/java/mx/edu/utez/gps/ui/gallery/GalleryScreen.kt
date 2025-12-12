@@ -83,7 +83,7 @@ fun TripInteractiveCard(
     // Estado para controlar si la tarjeta está expandida
     var expanded by remember { mutableStateOf(false) }
 
-    // --- CAMBIO IMPORTANTE: Decodificar Base64 a Bitmap ---
+    // Decodificar Base64 a Bitmap
     // Usamos remember para hacer la conversión solo una vez cuando cambia la URI
     val imageBitmap = remember(trip.photoUri) {
         base64ToBitmap(trip.photoUri)
@@ -101,7 +101,7 @@ fun TripInteractiveCard(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column {
-            // --- 1. ENCABEZADO ---
+            // ENCABEZADO
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -123,7 +123,7 @@ fun TripInteractiveCard(
                 )
             }
 
-            // --- 2. FOTO (Decodificada desde Base64) ---
+            // FOTO (Decodificada desde Base64)
             if (imageBitmap != null) {
                 Image(
                     bitmap = imageBitmap,
@@ -146,7 +146,7 @@ fun TripInteractiveCard(
                 }
             }
 
-            // --- 3. DATOS ---
+            // DATOS
             Column(modifier = Modifier.padding(16.dp)) {
                 InfoRow(
                     icon = Icons.Default.CalendarToday,
@@ -170,7 +170,7 @@ fun TripInteractiveCard(
                     value = durationStr
                 )
 
-                // --- 4. BOTONES ---
+                // BOTONES
                 if (expanded) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Divider()
@@ -228,7 +228,7 @@ fun InfoRow(icon: ImageVector, label: String, value: String) {
     }
 }
 
-// --- NUEVA FUNCIÓN: CONVERTIR TEXTO BASE64 A IMAGEN ---
+// FUN: CONVERTIR TEXTO BASE64 A IMAGEN
 fun base64ToBitmap(base64Str: String?): androidx.compose.ui.graphics.ImageBitmap? {
     if (base64Str.isNullOrEmpty()) return null
     return try {
@@ -243,7 +243,7 @@ fun base64ToBitmap(base64Str: String?): androidx.compose.ui.graphics.ImageBitmap
         val decodedBytes = Base64.decode(pureBase64, Base64.DEFAULT)
         // Creamos Bitmap
         val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-        // Convertimos a ImageBitmap (formato de Compose)
+        // Convertimos a ImageBitmap, que es elformato de Compose
         bitmap?.asImageBitmap()
     } catch (e: Exception) {
         e.printStackTrace()
@@ -251,7 +251,7 @@ fun base64ToBitmap(base64Str: String?): androidx.compose.ui.graphics.ImageBitmap
     }
 }
 
-// --- HELPERS DE FORMATO ---
+// HELPERS DE FORMATO
 fun Long.toFormattedDate(): String {
     val date = Date(this)
     val format = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())

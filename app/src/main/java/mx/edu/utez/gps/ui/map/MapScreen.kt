@@ -47,7 +47,7 @@ fun MapScreen(
                 if (points.isNotEmpty()) {
                     val geoPoints = points.map { GeoPoint(it.latitude, it.longitude) }
 
-                    // --- 1. Dibujar LA LÍNEA DEL VIAJE (Polilínea) ---
+                    // 1. Dibujar LA LÍNEA DEL VIAJE (Polilínea)
                     val line = Polyline().apply {
                         setPoints(geoPoints)
                         outlinePaint.color = Color.BLUE // Puedes cambiar el color o hacerlo aleatorio
@@ -58,7 +58,7 @@ fun MapScreen(
                     }
                     mapView.overlays.add(line)
 
-                    // --- 2. MARCADOR DE INICIO (Verde) ---
+                    // 2. MARCADOR DE INICIO (Verde)
                     val startMarker = Marker(mapView).apply {
                         position = geoPoints.first()
                         title = "Inicio Viaje #$tripId"
@@ -68,7 +68,7 @@ fun MapScreen(
                     }
                     mapView.overlays.add(startMarker)
 
-                    // --- 3. MARCADOR DE FIN (Rojo) ---
+                    // 3. MARCADOR DE FIN (Rojo)
                     // Solo lo ponemos si hay más de 1 punto y es distinto al inicio
                     if (geoPoints.size > 1) {
                         val endMarker = Marker(mapView).apply {

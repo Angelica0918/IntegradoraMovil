@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-// CAMBIO IMPORTANTE: version = 3 (Debido al nuevo campo 'distance')
+
 @Database(entities = [Trip::class, LocationPoint::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun tripDao(): TripDao

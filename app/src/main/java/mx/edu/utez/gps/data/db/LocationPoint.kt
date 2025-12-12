@@ -10,7 +10,7 @@ import androidx.room.ForeignKey
             entity = Trip::class,
             parentColumns = ["id"],
             childColumns = ["tripId"],
-            onDelete = ForeignKey.CASCADE // Si borras un Trip, se borran sus puntos
+            onDelete = ForeignKey.CASCADE // Borrar los puntos si borramos un viaje
         )
     ]
 )

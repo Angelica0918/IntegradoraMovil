@@ -22,7 +22,7 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
                 emptyList()
             )
 
-    // --- NUEVA FUNCIÓN PARA ELIMINAR ---
+    // ELIMINAR
     // Esta función será llamada desde la UI cuando se presione "Eliminar"
     fun deleteTrip(trip: Trip) {
         viewModelScope.launch {

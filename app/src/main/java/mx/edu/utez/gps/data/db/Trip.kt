@@ -6,8 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "trips")
 data class Trip(
     @PrimaryKey(autoGenerate = true)
-    // CAMBIO IMPORTANTE: 'var' en lugar de 'val'
-    // Esto permite que Retrofit asigne el ID que viene del servidor (MockAPI)
+    // Para que retrofit asigne el id que viene del server mockapi
     var id: Long = 0,
 
     val startTime: Long = System.currentTimeMillis(),
